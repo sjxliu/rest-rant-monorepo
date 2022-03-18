@@ -19,6 +19,7 @@ function LoginForm() {
 
     const response = await fetch("http://localHost:4000/authentication/", {
       method: "POST",
+      credentials: "include",
       headers: {
         "Content-Type": "application/json",
       },

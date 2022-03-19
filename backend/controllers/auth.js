@@ -24,16 +24,18 @@ router.post("/", async (req, res) => {
 
 router.get("/profile", async (req, res) => {
  // console.log(req.session.userId)
-  try {
-    let user = await User.findOne({
-      where: {
-        userId: req.session.userId,
-      },
-    });
-    res.json(user);
-  } catch {
-    res.json(null);
-  }
+  // try {
+  //   let user = await User.findOne({
+  //     where: {
+  //       userId: req.session.userId,
+  //     },
+  //   });
+  //   res.json(user);
+  // } catch {
+  //   res.json(null);
+  // }
+  req.currentUser ? res.json(req.currentUser) : res.json(null)
+
 });
 
 // router.post("/very-important-route", async(req, res) =>

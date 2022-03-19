@@ -10,7 +10,7 @@ function CurrentUserProvider({ children }) {
         "http://localhost:4000/authentication/profile",
         {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            'Authorization': `Bearer ${localStorage.getItem("token")}`,
           },
         }
       );

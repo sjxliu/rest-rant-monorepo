@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router";
+import { CurrentUser } from "../contexts/CurrentUser";
 import CommentCard from "./CommentCard";
 import NewCommentForm from "./NewCommentForm";
 
@@ -12,7 +13,7 @@ function PlaceDetails() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await fetch(`http://localhost:4000/places/${placeId}`);
+      const response = await fetch(`http://localhost:3000/places/${placeId}`);
       const resData = await response.json();
       setPlace(resData);
     };
@@ -28,7 +29,7 @@ function PlaceDetails() {
   }
 
   async function deletePlace() {
-    await fetch(`http://localhost:4000/places/${place.placeId}`, {
+    await fetch(`http://localhost:3000/places/${place.placeId}`, {
       method: "DELETE",
     });
     history.push("/places");
@@ -36,7 +37,7 @@ function PlaceDetails() {
 
   async function deleteComment(deletedComment) {
     await fetch(
-      `http://localhost:4000/places/${place.placeId}/comments/${deletedComment.commentId}`,
+      `http://localhost:3000/places/${place.placeId}/comments/${deletedComment.commentId}`,
       {
         method: "DELETE",
       }
@@ -52,10 +53,10 @@ function PlaceDetails() {
 
   async function createComment(commentAttributes) {
     const response = await fetch(
-      `http://localhost:4000/places/${place.placeId}/comments`,
+      `http://localhost:3000/places/${place.placeId}/comments`,
       {
         method: "POST",
-        'credentials': "include",
+        credentials: "include",
         headers: {
           "Content-Type": "application/json",
         },
@@ -94,6 +95,21 @@ function PlaceDetails() {
     });
   }
 
+  let placeActions = null;
+
+  if (CurrentUser?.role === "admin") {
+    placeActions = (
+      <>
+        <a className="btn btn-warning" onClick={editPlace}>
+          Edit
+        </a>
+        <button type="submit" className="btn btn-danger" onClick={deletePlace}>
+          Delete
+        </button>
+      </>
+    );
+  }
+
   return (
     <main>
       <div className="row">
@@ -115,17 +131,7 @@ function PlaceDetails() {
           </h3>
           <h4>Serving {place.cuisines}.</h4>
           <br />
-          <a className="btn btn-warning" onClick={editPlace}>
-            Edit
-          </a>
-          {` `}
-          <button
-            type="submit"
-            className="btn btn-danger"
-            onClick={deletePlace}
-          >
-            Delete
-          </button>
+          {placeActions}
         </div>
       </div>
       <hr />

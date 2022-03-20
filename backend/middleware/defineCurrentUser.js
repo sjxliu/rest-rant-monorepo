@@ -14,3 +14,4 @@ async function defineCurrentUser(req, res, next) {
     next();
   }
 }
+module.exports = defineCurrentUser;

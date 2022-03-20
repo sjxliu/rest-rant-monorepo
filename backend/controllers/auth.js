@@ -9,12 +9,13 @@ router.post("/", async (req, res) => {
   let user = await User.findOne({
     where: { email: req.body.email },
   });
+
   if (
     !user ||
     !(await bcrypt.compare(req.body.password, user.passwordDigest))
   ) {
     res.status(404).json({
-      message: `Could not find a user with the provided username and password`,
+      message: "Could not find a user with the provided username and password",
     });
   } else {
     req.session.userId = user.userId;
@@ -23,30 +24,7 @@ router.post("/", async (req, res) => {
 });
 
 router.get("/profile", async (req, res) => {
- // console.log(req.session.userId)
-  // try {
-  //   let user = await User.findOne({
-  //     where: {
-  //       userId: req.session.userId,
-  //     },
-  //   });
-  //   res.json(user);
-  // } catch {
-  //   res.json(null);
-  // }
-  req.currentUser ? res.json(req.currentUser) : res.json(null)
-
+  res.json(req.currentUser);
 });
-
-// router.post("/very-important-route", async(req, res) =>
-// {
-//   if (req.session.userId){
-//     console.log("Doing the really important thing")
-//     res.send("Task Complete")
-//   } else {
-//     console.log("You don't have access to do the important thing, loser")
-//     res.send("Denied lol")
-//   }
-// })
 
 module.exports = router;

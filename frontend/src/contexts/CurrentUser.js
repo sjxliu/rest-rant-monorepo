@@ -8,7 +8,7 @@ function CurrentUserProvider({ children }) {
   useEffect(() => {
     const getLoggedInUser = async () => {
       let response = await fetch(
-        "http://localhost:4000/authentication/profile",
+        "http://localhost:3000/authentication/profile",
         {
           credentials: "include",
         }

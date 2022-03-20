@@ -10,6 +10,7 @@ function LoginForm() {
   const [credentials, setCredentials] = useState({
     email: "",
     password: "",
+    role: "",
   });
 
   const [errorMessage, setErrorMessage] = useState(null);
@@ -17,7 +18,7 @@ function LoginForm() {
   async function handleSubmit(e) {
     e.preventDefault();
 
-    const response = await fetch("http://localHost:4000/authentication/", {
+    const response = await fetch("http://localHost:3000/authentication/", {
       method: "POST",
       credentials: "include",
       headers: {
